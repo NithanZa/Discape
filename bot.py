@@ -3,6 +3,7 @@ import discord
 from yaml import safe_load
 from sys import exit
 from dotenv import load_dotenv
+from interactives.enter_pin import PINView
 
 load_dotenv()
 TOKEN = getenv("BOT_TOKEN")
@@ -24,7 +25,14 @@ else:
 
 @bot.slash_command(name="ping", description="Test the latency of the bot")
 async def ping(ctx):
-    await ctx.respond(f"Pong! (Latency: {(bot.latency*1000):.2f} ms)")
+    await ctx.respond(f"Pong! (Latency: {(bot.latency * 1000):.2f} ms)")
+
+
+@bot.slash_command(name="pintest")
+async def pintest(ctx):
+    view = PINView()
+    await view.setup_buttons()
+    await ctx.respond("Buttons!", view=view)
 
 
 def run():
