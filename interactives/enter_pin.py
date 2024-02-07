@@ -1,5 +1,10 @@
 import discord
+from discord import Interaction
 
+
+class NumberButton(discord.ui.Button):
+    async def callback(self, interaction: Interaction):
+        pass
 
 class PINView(discord.ui.View):
     async def button_callback(self, button: discord.ui.Button, interaction: discord.Interaction):
