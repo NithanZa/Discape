@@ -11,20 +11,21 @@ async def load_data():
     return data
 
 
-async def set_message_attr(message_id: int, attr: Optional[str], response: Optional[str]):
+async def set_interactive_user_data(message_id: int, user_id: int, attr: Optional[str], response: Optional[str]):
     data = await load_data()
-    interactive_info = data[message_id]
-    if interactive_info is None:
-        interactive_info = {}
+    if message_id not in data:
+        data[message_id] = {}
+    if user_id not in data[message_id]:
+        data[message_id][user_id] = {}
     if attr is not None:
-        interactive_info["attr"] = attr
+        data[message_id]["attr"] = attr
     if response is not None:
-        interactive_info["response"] = response
+        data[message_id]["response"] = response
     async with open("interactives_data.json", "w") as json_file:
         dump(data, json_file)
 
 
-async def get_message_attr(message_id: int):
+async def get_interactive_user_data(message_id: int):
     data = await load_data()
     try:
         return data[message_id]
