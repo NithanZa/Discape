@@ -1,14 +1,17 @@
 import discord
 from discord import Interaction
 from interactives.file_manager import get_message_attr, set_message_attr
+from asyncio import sleep
 
 
 class NumberButton(discord.ui.Button):
     async def callback(self, interaction: Interaction):
         message_id = interaction.message.id
         attr = await get_message_attr(message_id)
-        response_interaction = await interaction.response.send_message("hello!")
-        response_interaction
+        response_interaction = await interaction.response.send_message("hello!", ephemeral=True)
+        await sleep(2)
+        response_message: discord.InteractionMessage = await response_interaction.original_response()
+        await response_message.edit(content="hir")
 
 
 
