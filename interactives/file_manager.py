@@ -1,4 +1,5 @@
 from json import load, dump
+from typing import Optional
 
 
 async def load_data():
@@ -10,9 +11,15 @@ async def load_data():
     return data
 
 
-async def set_message_attr(message_id: int, attr: str):
+async def set_message_attr(message_id: int, attr: Optional[str], response: Optional[str]):
     data = await load_data()
-    data[message_id] = attr
+    interactive_info = data[message_id]
+    if interactive_info is None:
+        interactive_info = {}
+    if attr is not None:
+        interactive_info["attr"] = attr
+    if response is not None:
+        interactive_info["response"] = response
     async with open("interactives_data.json", "w") as json_file:
         dump(data, json_file)
 
@@ -22,4 +29,4 @@ async def get_message_attr(message_id: int):
     try:
         return data[message_id]
     except KeyError:
-        return ""
+        return {}

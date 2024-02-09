@@ -11,8 +11,9 @@ class NumberButton(discord.ui.Button):
         response_interaction = await interaction.response.send_message("hello!", ephemeral=True)
         await sleep(2)
         response_message: discord.InteractionMessage = await response_interaction.original_response()
-        await response_message.edit(content="hir")
-
+        await response_message.edit(content=f"Msg id is {response_message.id}")
+        await sleep(2)
+        await response_message.delete()
 
 
 class PINView(discord.ui.View):
