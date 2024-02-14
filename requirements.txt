@@ -1,3 +1,4 @@
 py-cord[voice]
 pyyaml
 python-dotenv
+aiofiles
