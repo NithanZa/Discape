@@ -1,0 +1,13 @@
+name:
+channels:
+  a:
+    - embed:
+        msg: test
+        title: e
+        description: e
+        author: e
+        icon_url: e
+    - link: ":"
+    - pin:
+        name: hi
+        range: [1,2,3]
