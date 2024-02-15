@@ -2,9 +2,13 @@ from yaml import safe_load
 import discord
 import aiofiles
 
+INTERACTIVE_TYPES = (
+    "enterpin"
+)
 
 puzzle_state = []
 puzzle_index = 0
+
 
 async def load_data():
     try:
@@ -18,12 +22,11 @@ async def load_data():
 
 async def load_puzzle(ctx: discord.ApplicationContext):
     data = await load_data()
-    if data is None:
-        await ctx.respond("puzzle.yml not found!", ephemeral=True)
+    if not data:
+        await ctx.respond("puzzle.yml not found/empty!", ephemeral=True)
     elif type(data) == list:
-        if data == []:
-            await ctx.respond("puzzle.yml has an empty list")
-        else:
-            interactive_amount = 0
-            for channel in data[puzzle_state]:
-
+        interactive_amount = 0
+        for channel in data[puzzle_state]:
+            for content in channel.items():
+                if content[0].lower() in INTERACTIVE_TYPES:
+                    interactive_amount += 1
