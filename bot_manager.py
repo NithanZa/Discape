@@ -7,7 +7,7 @@ from interactives.enter_pin import PINView
 load_dotenv()
 TOKEN = getenv("BOT_TOKEN")
 
-with open('config.yml', 'r') as file:
+with open('config/config.yml', 'r') as file:
     CONFIG = safe_load(file)
     if CONFIG is None:
         print("config.yml not found, exiting program")

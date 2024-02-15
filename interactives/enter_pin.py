@@ -4,7 +4,7 @@ import discord
 from discord import Interaction
 
 import bot_manager
-from interactives.file_manager import get_interactive_user_data, set_interactive_user_data, clear_interactive_data
+from interactives.user_data_manager import get_interactive_user_data, set_interactive_user_data, clear_interactive_data
 from asyncio import sleep
 
 

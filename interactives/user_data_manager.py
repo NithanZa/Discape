@@ -6,7 +6,7 @@ import aiofiles
 
 async def load_data():
     try:
-        async with aiofiles.open("interactives_data.json", "r") as json_file:
+        async with aiofiles.open("../config/interactives_data.yml", "r") as json_file:
             contents = await json_file.read()
         data = loads(contents)
     except (FileNotFoundError, JSONDecodeError):
