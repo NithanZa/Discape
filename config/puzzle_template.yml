@@ -2,12 +2,12 @@ name:
 channels:
   a:
     - embed:
-        msg: test
+        content: test
         title: e
         description: e
         author: e
         icon_url: e
-    - link: ":"
+    - msg: ":"
     - pin:
         name: hi
         range: [1,2,3]
