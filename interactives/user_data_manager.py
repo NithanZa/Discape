@@ -1,4 +1,4 @@
-from json import loads, dumps
+from yaml import safe_load, safe_dump
 from json.decoder import JSONDecodeError
 from typing import Optional
 import aiofiles
@@ -8,7 +8,7 @@ async def load_data():
     try:
         async with aiofiles.open("../config/interactives_data.yml", "r") as json_file:
             contents = await json_file.read()
-        data = loads(contents)
+        data = safe_load(contents)
     except (FileNotFoundError, JSONDecodeError):
         print('hi')
         return {}
@@ -27,8 +27,8 @@ async def set_interactive_user_data(interactive: str, user_id: str, attr: Option
     if attr is not None:
         data[interactive][user_id]["attr"] = attr
         print('b4' + str(data))
-    async with aiofiles.open("interactives_data.json", "w") as json_file:
-        await json_file.write(dumps(data))
+    async with aiofiles.open("../config/interactives_data.yml", "w") as json_file:
+        await json_file.write(safe_dump(data))
 
 
 async def get_interactive_user_data(interactive: str, user_id: str):
