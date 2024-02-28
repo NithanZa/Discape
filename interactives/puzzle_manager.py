@@ -2,6 +2,7 @@ from yaml import safe_load
 from discord import Embed
 import discord
 import aiofiles
+from asyncio import run
 
 INTERACTIVE_TYPES = (
     "enterpin"
@@ -45,19 +46,23 @@ async def load_embed(body: dict) -> Embed:
         g = int(colour_inp[2:4], 16)
         b = int(colour_inp[4:6], 16)
         colour = discord.Colour.from_rgb(r, g, b)
-    elif isinstance(colour_inp, int):  # discord's colour value thing???
+    elif isinstance(colour_inp,
+                    int) or colour_inp == Embed.Empty:  # discord's colour value thing, or empty if non-existent
         colour = colour_inp
     else:  # list of rgb
         colour = discord.Colour.from_rgb(colour_inp[0], colour_inp[1], colour_inp[2])
 
     content: str = body["content"] if "content" in body else Embed.Empty
     url: str = body["url"] if "url" in body else Embed.Empty
-    thumbnail: str = body["thumbnail"] if "thumbnail" in body else Embed.Empty  # url
+    thumbnail: str = body[
+        "thumbnail"] if "thumbnail" in body else Embed.Empty  # url, if local then start with attachment://
     author: str = body["author"] if "author" in body else Embed.Empty
-    author_icon: str = body["author_icon"] if "author_icon" in body else Embed.Empty  # url
+    author_icon: str = body[
+        "author_icon"] if "author_icon" in body else Embed.Empty  # url, if local then start with attachment://
     author_url: str = body["author_url"] if "author_url" in body else Embed.Empty
     footer: str = body["footer"] if "footer" in body else Embed.Empty
-    footer_icon: str = body["footer_icon"] if "footer_icon" in body else Embed.Empty  # url
+    footer_icon: str = body[
+        "footer_icon"] if "footer_icon" in body else Embed.Empty  # url, if local then start with attachment://
 
     # Makes a list of `discord.EmbedField`
     if "fields" in body:
@@ -76,7 +81,7 @@ async def load_embed(body: dict) -> Embed:
                   fields=fields
                   )
 
-    embed.set_thumbnail(thumbnail)
-    embed.set_author(author, author_url, author_icon)
-    embed.set_footer(footer, footer_icon)
+    embed.set_thumbnail(url=thumbnail)
+    embed.set_author(name=author, url=author_url, icon_url=author_icon)
+    embed.set_footer(text=footer, icon_url=footer_icon)
     return embed
